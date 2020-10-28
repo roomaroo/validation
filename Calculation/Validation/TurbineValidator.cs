@@ -1,7 +1,7 @@
 using DataModel.Dto;
 using FluentValidation;
 
-namespace DataModel.Validation
+namespace Calculation.Validation
 {
     public class TurbineValidator : AbstractValidator<Turbine>
     {
