@@ -1,9 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
+using Calculation.Validation;
 using DataModel.Dto;
-using DataModel.Validation;
 using FluentValidation;
-using FluentValidation.Results;
 
 namespace Calculation
 {
