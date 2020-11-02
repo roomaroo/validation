@@ -1,9 +1,10 @@
-using DataModel.Dto;
+using Calculation.Validated;
 using FluentValidation;
+using Dto = DataModel.Dto;
 
 namespace Calculation.Validation
 {
-    public class LocationValidator : AbstractValidator<Location>
+    internal class LocationValidator : AbstractValidator<Dto.Location>
     {
         public LocationValidator()
         {

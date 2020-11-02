@@ -1,9 +1,10 @@
-using DataModel.Dto;
+using Calculation.Validated;
 using FluentValidation;
+using Dto = DataModel.Dto;
 
 namespace Calculation.Validation
 {
-    public class TurbineValidator : AbstractValidator<Turbine>
+    internal class TurbineValidator : AbstractValidator<Dto.Turbine>
     {
         public TurbineValidator()
         {
