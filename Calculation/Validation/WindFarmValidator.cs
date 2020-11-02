@@ -1,9 +1,10 @@
-using DataModel.Dto;
+using Calculation.Validated;
+using Dto = DataModel.Dto;
 using FluentValidation;
 
 namespace Calculation.Validation
 {
-    public class WindFarmValidator : AbstractValidator<WindFarm>
+    internal class WindFarmValidator : AbstractValidator<Dto.WindFarm>
     {
         public WindFarmValidator()
         {

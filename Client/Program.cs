@@ -1,5 +1,6 @@
 ﻿using System;
 using Calculation;
+using Calculation.Validation;
 using DataModel.Dto;
 
 namespace Client
@@ -29,10 +30,12 @@ namespace Client
             };
 
             var calculation = new HeightCalculation();
-            
+            var validator = new Validator();
+
             try
             {
-                Console.WriteLine($"Average turbine height: {calculation.AverageTurbineHeight(windFarm)}m");
+                var validated = validator.ValidateOrThrow(windFarm);
+                Console.WriteLine($"Average turbine height: {calculation.AverageTurbineHeight(validated)}m");
             }
             catch (FluentValidation.ValidationException e)
             {
@@ -42,7 +45,8 @@ namespace Client
             try
             {
                 WindFarm emptyFarm = new WindFarm(); 
-                Console.WriteLine($"Average turbine height in empty windfarm: {calculation.AverageTurbineHeight(emptyFarm)}m");
+                var validated = validator.ValidateOrThrow(emptyFarm);
+                Console.WriteLine($"Average turbine height in empty windfarm: {calculation.AverageTurbineHeight(validated)}m");
             }
             catch (FluentValidation.ValidationException e)
             {
@@ -52,7 +56,9 @@ namespace Client
             try
             {
                 WindFarm emptyFarm = new WindFarm{ Turbines = Array.Empty<Turbine>()}; 
-                Console.WriteLine($"Average turbine height in empty windfarm: {calculation.AverageTurbineHeight(emptyFarm)}m");
+                var validated = validator.ValidateOrThrow(emptyFarm);
+
+                Console.WriteLine($"Average turbine height in empty windfarm: {calculation.AverageTurbineHeight(validated)}m");
             }
             catch (FluentValidation.ValidationException e)
             {
