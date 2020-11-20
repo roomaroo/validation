@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using AutoMapper;
 using FluentValidation;
 using FluentValidation.Results;
+using Dto = DataModel.Dto;
+using Validated = DataModel.Dto.Validated;
 
 namespace Calculation.Validation
 {
@@ -12,13 +14,13 @@ namespace Calculation.Validation
         public Validator()
         {
             var config = new MapperConfiguration(cfg => {
-                cfg.AddProfile<Validated.ModelMappingProfile>();
+                cfg.AddProfile<DataModel.ModelMappingProfile>();
             });
 
             this.mapper = new Mapper(config);
         }
 
-        public Validated.WindFarm ValidateOrThrow(DataModel.Dto.WindFarm windFarmDto)
+        public Validated.WindFarm ValidateOrThrow(Dto.WindFarm windFarmDto)
         {
             var validator = new WindFarmValidator();
             validator.ValidateAndThrow(windFarmDto);
@@ -26,7 +28,7 @@ namespace Calculation.Validation
             return this.mapper.Map<Validated.WindFarm>(windFarmDto);
         }
 
-        public ValidationResult<Validated.WindFarm> Validate(DataModel.Dto.WindFarm windFarmDto)
+        public ValidationResult<Validated.WindFarm> Validate(Dto.WindFarm windFarmDto)
         {
             var validator = new WindFarmValidator();
             var result = validator.Validate(windFarmDto);
@@ -37,6 +39,19 @@ namespace Calculation.Validation
             }
 
             return new ValidationError<Validated.WindFarm>(result.Errors);
+        }
+
+        public ValidationResult<Validated.Location> Validate(Dto.Location location)
+        {
+            var validator = new LocationValidator();
+            var result = validator.Validate(location);
+            if (!result.IsValid)
+            {
+                return new ValidationError<Validated.Location>(result.Errors);
+            }
+
+            return new ValidationSuccess<Validated.Location>(
+                new Validated.Location(location.Latitude, location.Longitude));
         }
 
         public abstract class ValidationResult<T>

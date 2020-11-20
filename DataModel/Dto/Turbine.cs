@@ -2,6 +2,8 @@
 
 namespace DataModel.Dto
 {
+    [AutoValidate.Validate]
+
     public class Turbine
     {
         public Guid Id { get; set; }

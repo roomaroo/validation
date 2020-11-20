@@ -4,7 +4,7 @@ namespace Calculation
 {
     public class HeightCalculation
     {
-        public double AverageTurbineHeight(Validated.WindFarm windFarm)
+        public double AverageTurbineHeight(DataModel.Dto.Validated.WindFarm windFarm)
         {
             // No need to validate the inputs. It's a Validated.WindFarm, which
             // can only be created by going through validation
