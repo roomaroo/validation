@@ -11,6 +11,16 @@ but with no way for the calculation to know its inputs have been validated.
 - `3-compiler-enforced-validation` - a parallel set of input classes makes it impossible to pass invalid data to the calculation.
 - `4-source-generators` - use .NET 5 source generators to create the validation classes 
 
-# No validation
-This example does not have any validation. The calculation throws exceptions if the input data is invalid.
+# Compiler-enforced validation - with Source Generator
+
+This is similar to the compiler-enforced validation example, where there is
+a separate set of `Validated` classes.
+
+However, in this example the `Validated` classes are generated from the DTOs by a .NET 5 Source Generator.
+
+Source Generators are a new feature. They are run as part of the compilation process, and can generate new source code that is added to the program being compiled.
+
+By generating the Validation classes, we get all the advantages of the compiler-enforced validation, but without the maintenance overheads.
+
+The disadvantage is that you need to be using the .NET 5 tooling to build your solution.
 
