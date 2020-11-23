@@ -11,6 +11,10 @@ but with no way for the calculation to know its inputs have been validated.
 - `3-compiler-enforced-validation` - a parallel set of input classes makes it impossible to pass invalid data to the calculation.
 - `4-source-generators` - use .NET 5 source generators to create the validation classes 
 
-# No validation
-This example does not have any validation. The calculation throws exceptions if the input data is invalid.
+# Fluent Validation
+This example has validation, and uses the [FluentValidation](https://fluentvalidation.net/) library. This makes it easier to write validation rule, and chain rules together.
+
+The calculation has to run the validation itself, because it has no way of knowing whether its inputs have already been validated.
+
+
 
