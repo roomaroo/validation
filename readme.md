@@ -11,6 +11,21 @@ but with no way for the calculation to know its inputs have been validated.
 - `3-compiler-enforced-validation` - a parallel set of input classes makes it impossible to pass invalid data to the calculation.
 - `4-source-generators` - use .NET 5 source generators to create the validation classes 
 
-# No validation
-This example does not have any validation. The calculation throws exceptions if the input data is invalid.
+# Compiler enforced validation
+In this example, there is a parallel set of "validated" classes, with a one-to-one mapping to the DTOs
 
+| DTO | Validated|
+|:-----|:-----:|-----:|
+|`DTO.WindFarm`|`Validated.WindFarm`|
+|`DTO.Location`|`Validated.Location`|
+|`DTO.Turbine`|`Validated.Turbine`|
+
+The calculation takes a `Validated.WindFarm` as input.
+
+The `Validated` classes are immutable, with `internal` constructors. Instances of the `Validated` classes can only be created by validation code, and once created, they cannot be changed.
+
+This means that the inputs to the calculation are guaranteed (by the compiler) to have been through validation.
+
+I used AutoMapper to map between the `DTO`s and `Validated` classes - this reduces the amount of repetitive code that needs to be written.
+
+The advantage of this approach is that the calculation can be confident that it has valid inputs. The disadvantage is the need to write a maintain the extra `Validated` classes.
