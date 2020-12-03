@@ -34,8 +34,8 @@ namespace Client
 
             try
             {
-                var validated = validator.ValidateOrThrow(windFarm);
-                Console.WriteLine($"Average turbine height: {calculation.AverageTurbineHeight(validated)}m");
+                var validatedWindFarm = validator.ValidateOrThrow(windFarm);
+                Console.WriteLine($"Average turbine height: {calculation.AverageTurbineHeight(validatedWindFarm)}m");
             }
             catch (FluentValidation.ValidationException e)
             {
