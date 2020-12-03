@@ -34,8 +34,8 @@ namespace Client
 
             try
             {
-                var validated = validator.ValidateOrThrow(windFarm);
-                Console.WriteLine($"Average turbine height: {calculation.AverageTurbineHeight(validated)}m");
+                var validatedWindFarm = validator.ValidateOrThrow(windFarm);
+                Console.WriteLine($"Average turbine height: {calculation.AverageTurbineHeight(validatedWindFarm)}m");
             }
             catch (FluentValidation.ValidationException e)
             {
@@ -45,8 +45,8 @@ namespace Client
             try
             {
                 WindFarm emptyFarm = new WindFarm(); 
-                var validated = validator.ValidateOrThrow(emptyFarm);
-                Console.WriteLine($"Average turbine height in empty windfarm: {calculation.AverageTurbineHeight(validated)}m");
+                var validatedWindFarm = validator.ValidateOrThrow(emptyFarm);
+                Console.WriteLine($"Average turbine height in empty windfarm: {calculation.AverageTurbineHeight(validatedWindFarm)}m");
             }
             catch (FluentValidation.ValidationException e)
             {
@@ -56,9 +56,9 @@ namespace Client
             try
             {
                 WindFarm emptyFarm = new WindFarm{ Turbines = Array.Empty<Turbine>()}; 
-                var validated = validator.ValidateOrThrow(emptyFarm);
+                var validatedWindFarm = validator.ValidateOrThrow(emptyFarm);
 
-                Console.WriteLine($"Average turbine height in empty windfarm: {calculation.AverageTurbineHeight(validated)}m");
+                Console.WriteLine($"Average turbine height in empty windfarm: {calculation.AverageTurbineHeight(validatedWindFarm)}m");
             }
             catch (FluentValidation.ValidationException e)
             {
