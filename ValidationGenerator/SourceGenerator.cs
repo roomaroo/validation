@@ -39,7 +39,7 @@ namespace AutoValidate
             context.AddSource("ValidateAttribute", SourceText.From(attributeText, Encoding.UTF8));
 
             // Get the syntax receiver, which should be populated
-            if (!(context.SyntaxReceiver is SyntaxReceiver receiver))
+            if (context.SyntaxReceiver is not SyntaxReceiver receiver)
             {
                 return;
             }
@@ -105,24 +105,25 @@ namespace {namespaceName}.Validated
             // Create a property for each source property
             foreach (IPropertySymbol propertySymbol in classSymbol.GetMembers().OfType<IPropertySymbol>())
             {
-                ProcessProperty(source, propertySymbol);
+                ProcessProperty(source, propertySymbol, namespaceName);
             }
 
-            AddConstructor(source, classSymbol);
+            AddConstructor(source, classSymbol, namespaceName);
 
             source.Append($"    }}{Environment.NewLine}}}");
 
             return source.ToString();
         }
 
-        private void AddConstructor(StringBuilder source, INamedTypeSymbol classSymbol)
+        private void AddConstructor(StringBuilder source, INamedTypeSymbol classSymbol, string unvalidatedNamespace)
         {
             source.AppendLine();
             source.Append($"        internal {classSymbol.Name}(");
 
             var paramStrings =
                 from property in classSymbol.GetMembers().OfType<IPropertySymbol>()
-                select $"{property.Type} {paramName(property.Name)}";
+                let fieldType = ProcessType(property, unvalidatedNamespace)
+                select $"{fieldType} {paramName(property.Name)}";
 
             source.Append(string.Join(", ", paramStrings));
             source.AppendLine(")");
@@ -141,12 +142,25 @@ namespace {namespaceName}.Validated
             }
         }
 
-        private void ProcessProperty(StringBuilder source, IPropertySymbol propertySymbol)
+        private void ProcessProperty(StringBuilder source, IPropertySymbol propertySymbol, string unvalidatedNamespace)
         {
             string propertyName = propertySymbol.Name;
-            ITypeSymbol fieldType = propertySymbol.Type;
+            string fieldType = ProcessType(propertySymbol, unvalidatedNamespace);
 
             source.AppendLine($@"        public {fieldType} {propertyName} {{ get; }}");
+        }
+
+        private string ProcessType(IPropertySymbol propertySymbol, string unvalidatedNamespace)
+        {
+            //System.Diagnostics.Debugger.Launch();
+
+            ITypeSymbol propertyType = propertySymbol.Type;
+            //if (propertyType.ContainingNamespace?.ToString() == unvalidatedNamespace)
+            //{
+            //    return propertyType.ToString().Replace(unvalidatedNamespace, $"{unvalidatedNamespace}.Validated");
+            //}
+
+            return propertyType.ToString().Replace(unvalidatedNamespace, $"{unvalidatedNamespace}.Validated");
         }
 
         private class SyntaxReceiver : ISyntaxReceiver
